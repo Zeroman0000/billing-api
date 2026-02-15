@@ -12,9 +12,15 @@ export class userRepo{
         return await user.save();
     }
     
+    async softDelete(id:string){
+        return await this.userModel.findByIdAndUpdate(
+            id,
+            {new:true},
+            {isDelete:true, deleteAt:new Date()}
+        )}
 
     async getAll(){
-        return this.userModel.find();
+        return await this.userModel.find();
     }
 
     async findById(id:string){
