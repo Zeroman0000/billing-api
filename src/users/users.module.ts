@@ -10,6 +10,7 @@ import { userRepo } from './users.repository';
     name:User.name,schema:usersSchema
   }])],
   providers: [UsersService,userRepo],
-  controllers: [UsersController]
+  controllers: [UsersController],
+  exports:[ UsersService]
 })
 export class UsersModule {}

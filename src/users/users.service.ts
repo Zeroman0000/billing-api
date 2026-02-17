@@ -26,5 +26,8 @@ export class UsersService {
     delete(id:string){
         return this.UserRepo.delete(id);
     }
-
+ 
+    findEmail(email:string,withPassword=false){
+        return this.UserRepo.findByEmail(email,withPassword);
+    }
 }
