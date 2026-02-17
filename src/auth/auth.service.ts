@@ -1,18 +1,15 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtStrategy } from './jwt.strategy';
 import { UsersService } from 'src/users/users.service';
 import { CreateUserDto } from 'src/users/dto/createUser.dto';
-import { subscribe } from 'diagnostics_channel';
-import { access } from 'fs';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from "bcrypt";
-import { User, usersSchema } from 'src/users/schemas/users.schema';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Injectable()
 export class AuthService {
  constructor(private userService:UsersService,private jwtService:JwtService){}
 
-
+ 
 //Register
   async createUser(createUserDto:CreateUserDto){
     const existingUser= await this.userService.findEmail(createUserDto.email,true);
@@ -24,7 +21,8 @@ export class AuthService {
 
     const payload={
         sub:user._id,
-        email:user.email
+        email:user.email,
+        roles:user.role 
     };
 
     return {
@@ -46,7 +44,8 @@ export class AuthService {
 
       const payload={
         sub:user._id,
-        email:user.email
+        email:user.email,
+        roles:user.role
       }
       return {
         access_token:this.jwtService.sign(payload)

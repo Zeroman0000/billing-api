@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import * as bcrypt from "bcrypt";
 import { HydratedDocument } from "mongoose";
 import passport, { use } from "passport";
+import { ROLES } from "src/common/roles.enum";
 
 export type UserDocument = HydratedDocument<User> & {
   validatePassword: (password: string) => Promise<boolean>;
@@ -18,6 +19,13 @@ export class User{
 
     @Prop({required:true,select:false})
     password:string
+
+    @Prop({
+      type:String,
+      enum:ROLES,
+      default:ROLES.USER
+    })
+    role:ROLES
 }
 
 export const usersSchema=SchemaFactory.createForClass(User);
